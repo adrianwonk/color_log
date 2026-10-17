@@ -27,7 +27,11 @@ cmake --install build --prefix /path/to/install
 This installs the library, `color_log.h`, and CMake package files for use
 with `find_package`.
 
-## Use with FetchContent
+## Use as a Git dependency with FetchContent
+
+The simplest way to use `color_log` is to let the consuming CMake project
+download and build it. Pin `GIT_TAG` to a release tag (or a commit) so builds
+remain reproducible:
 
 Add this to the consuming project's `CMakeLists.txt`:
 
@@ -37,7 +41,10 @@ include(FetchContent)
 FetchContent_Declare(
     color_log
     GIT_REPOSITORY https://github.com/adrianwonk/color_log.git
-    GIT_TAG main
+    GIT_TAG v0.1.0
+    GIT_SHALLOW ON
+    EXCLUDE_FROM_ALL
+    SYSTEM
 )
 FetchContent_MakeAvailable(color_log)
 
@@ -45,7 +52,11 @@ add_executable(my_app main.c)
 target_link_libraries(my_app PRIVATE color_log::color_log)
 ```
 
-When using a local checkout instead of Git, use `SOURCE_DIR`:
+The `color_log::color_log` target exposes the public include directory and
+requires C99. No separate installation step is needed.
+
+For a local checkout, use `SOURCE_DIR` instead of `GIT_REPOSITORY` and
+`GIT_TAG`:
 
 ```cmake
 FetchContent_Declare(
