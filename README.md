@@ -34,22 +34,23 @@ download and build it. Pin `GIT_TAG` to a release tag (or a commit) so builds
 remain reproducible:
 
 Add this to the consuming project's `CMakeLists.txt`:
+```
+project(ProjectName)
+cmake_minimum_required(VERSION 3.15)
 
-```cmake
 include(FetchContent)
 
 FetchContent_Declare(
     color_log
     GIT_REPOSITORY https://github.com/adrianwonk/color_log.git
-    GIT_TAG v0.1.0
     GIT_SHALLOW ON
     EXCLUDE_FROM_ALL
     SYSTEM
 )
 FetchContent_MakeAvailable(color_log)
 
-add_executable(my_app main.c)
-target_link_libraries(my_app PRIVATE color_log::color_log)
+add_executable(main main.c)
+target_link_libraries(main PRIVATE color_log::color_log)
 ```
 
 The `color_log::color_log` target exposes the public include directory and
