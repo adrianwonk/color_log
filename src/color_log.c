@@ -1,8 +1,8 @@
 #include "color_log.h"
 #include <string.h>
-#define HEADER_BUF_SIZE 20
-#define TRAILER_BUF_SIZE 20
-#define SECTION_BUF_SIZE 20
+#define HEADER_BUF_SIZE 50
+#define TRAILER_BUF_SIZE 50
+#define SECTION_BUF_SIZE 50
 
 
 void color_table(FILE* fileptr ){
