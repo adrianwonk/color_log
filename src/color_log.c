@@ -23,6 +23,9 @@ void fprint_col(FILE* fileptr, enum colors col, const char* format, ...){
         case SUBHEADER:
         i=90;
         break;
+        case SUBTRAILER:
+        i=90;
+        break;
         case SECTION:
         i=90;
         break;
@@ -62,7 +65,7 @@ void fprint_col(FILE* fileptr, enum colors col, const char* format, ...){
         int i;
         for (i=0; i<HEADER_BUF_SIZE-size; i+=3) fprintf(fileptr, "===");
         fprintf(fileptr, "\n");
-    } else if (col == TRAILER) {
+    } else if (col == TRAILER || col == SUBTRAILER) {
         char buf[TRAILER_BUF_SIZE+1];
         vsnprintf(buf, TRAILER_BUF_SIZE, format, args);
         buf[TRAILER_BUF_SIZE] = '\0';

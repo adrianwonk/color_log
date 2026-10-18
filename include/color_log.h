@@ -6,6 +6,7 @@ enum colors{
     HEADER,
     SUBHEADER,
     TRAILER,
+    SUBTRAILER,
     SECTION,
     MEMORY,
     LABEL,
