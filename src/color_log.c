@@ -58,8 +58,7 @@ void fprint_col(FILE* fileptr, enum colors col, const char* format, ...){
 
         int i;
         for (i=0; i<HEADER_BUF_SIZE-size; i+=3) fprintf(fileptr, "===");
-        fprintf(fileptr,
-        "=================================\n");
+        fprintf(fileptr, "\n");
     } else if (col == TRAILER) {
         char buf[TRAILER_BUF_SIZE+1];
         vsnprintf(buf, TRAILER_BUF_SIZE, format, args);
@@ -72,8 +71,7 @@ void fprint_col(FILE* fileptr, enum colors col, const char* format, ...){
 
         int i;
         for (i=0; i<TRAILER_BUF_SIZE-size; i++) fprintf(fileptr, ".");
-        fprintf(fileptr,
-        ".................................\n");
+        fprintf(fileptr, "\n");
     }else if (col == SECTION) {
         char buf[SECTION_BUF_SIZE+1];
         vsnprintf(buf, SECTION_BUF_SIZE, format, args);
@@ -86,8 +84,7 @@ void fprint_col(FILE* fileptr, enum colors col, const char* format, ...){
         fprintf(fileptr, " ");
         int i;
         for (i=0; i<SECTION_BUF_SIZE-size; i+=1) fprintf(fileptr, "*");
-        fprintf(fileptr, 
-        "********************\n");
+        fprintf(fileptr, "\n");
     } else {
         vfprintf(fileptr, format, args);
     }
