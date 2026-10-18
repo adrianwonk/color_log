@@ -4,6 +4,7 @@
 enum colors{
     DEFAULT,
     HEADER,
+    SUBHEADER,
     TRAILER,
     SECTION,
     MEMORY,

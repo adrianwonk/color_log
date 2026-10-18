@@ -20,6 +20,9 @@ void fprint_col(FILE* fileptr, enum colors col, const char* format, ...){
         case DEFAULT:
         i=90;
         break;
+        case SUBHEADER:
+        i=90;
+        break;
         case SECTION:
         i=90;
         break;
@@ -45,7 +48,7 @@ void fprint_col(FILE* fileptr, enum colors col, const char* format, ...){
 
     va_list args;
     va_start(args, format);
-    if (col == HEADER){
+    if (col == HEADER || col == SUBHEADER){
         char buf[HEADER_BUF_SIZE+1];
         vsnprintf(buf, HEADER_BUF_SIZE, format, args);
         buf[HEADER_BUF_SIZE] = '\0';
