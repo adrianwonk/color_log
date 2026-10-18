@@ -1,5 +1,9 @@
 #include "color_log.h"
 #include <string.h>
+#define HEADER_BUF_SIZE 20
+#define TRAILER_BUF_SIZE 20
+#define SECTION_BUF_SIZE 20
+
 
 void color_table(FILE* fileptr ){
     for (int i = 0; i < 108; i++){
@@ -42,9 +46,9 @@ void fprint_col(FILE* fileptr, enum colors col, const char* format, ...){
     va_list args;
     va_start(args, format);
     if (col == HEADER){
-        char buf[21];
-        vsnprintf(buf, 20, format, args);
-        buf[20] = '\0';
+        char buf[HEADER_BUF_SIZE+1];
+        vsnprintf(buf, HEADER_BUF_SIZE, format, args);
+        buf[HEADER_BUF_SIZE] = '\0';
         int size = strcspn(buf,"\0");
 
         fprintf(fileptr, "===");
@@ -53,13 +57,13 @@ void fprint_col(FILE* fileptr, enum colors col, const char* format, ...){
         fprintf(fileptr, " ");
 
         int i;
-        for (i=0; i<20-size; i+=3) fprintf(fileptr, "===");
+        for (i=0; i<HEADER_BUF_SIZE-size; i+=3) fprintf(fileptr, "===");
         fprintf(fileptr,
         "=================================\n");
     } else if (col == TRAILER) {
-        char buf[21];
-        vsnprintf(buf, 20, format, args);
-        buf[20] = '\0';
+        char buf[TRAILER_BUF_SIZE+1];
+        vsnprintf(buf, TRAILER_BUF_SIZE, format, args);
+        buf[TRAILER_BUF_SIZE] = '\0';
         int size = strcspn(buf,"\0");
 
         fprintf(fileptr, "...");
@@ -67,13 +71,13 @@ void fprint_col(FILE* fileptr, enum colors col, const char* format, ...){
         fprintf(fileptr, " ");
 
         int i;
-        for (i=0; i<20-size; i++) fprintf(fileptr, ".");
+        for (i=0; i<TRAILER_BUF_SIZE-size; i++) fprintf(fileptr, ".");
         fprintf(fileptr,
         ".................................\n");
     }else if (col == SECTION) {
-        char buf[21];
-        vsnprintf(buf, 20, format, args);
-        buf[20] = '\0';
+        char buf[SECTION_BUF_SIZE+1];
+        vsnprintf(buf, SECTION_BUF_SIZE, format, args);
+        buf[SECTION_BUF_SIZE] = '\0';
         int size = strcspn(buf,"\0");
 
         fprintf(fileptr, "***");
@@ -81,7 +85,7 @@ void fprint_col(FILE* fileptr, enum colors col, const char* format, ...){
 
         fprintf(fileptr, " ");
         int i;
-        for (i=0; i<20-size; i+=1) fprintf(fileptr, "*");
+        for (i=0; i<SECTION_BUF_SIZE-size; i+=1) fprintf(fileptr, "*");
         fprintf(fileptr, 
         "********************\n");
     } else {
