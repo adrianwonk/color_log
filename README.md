@@ -1,6 +1,10 @@
 # color_log
 
 `color_log` is a small C library for writing ANSI-colored log output.
+It notably has an auto line drawer for HEADER, TRAILER, and SECTION.
+
+It provides the fprint_col(FILE*, struct color, char *format, ...);
+function, using ANSI escape codes to beautify log statements.
 
 The public header is `color_log.h`, and the CMake target is
 `color_log::color_log`.
@@ -29,12 +33,10 @@ with `find_package`.
 
 ## Use as a Git dependency with FetchContent
 
-The simplest way to use `color_log` is to let the consuming CMake project
-download and build it. Pin `GIT_TAG` to a release tag (or a commit) so builds
-remain reproducible:
+The simplest way to use `color_log` is via CMake.
 
-Add this to the consuming project's `CMakeLists.txt`:
-```
+Add this to the project's `CMakeLists.txt`:
+```cmake
 cmake_minimum_required(VERSION 3.15)
 project(ProjectName)
 
@@ -53,43 +55,17 @@ add_executable(main main.c)
 target_link_libraries(main PRIVATE color_log::color_log)
 ```
 
-The `color_log::color_log` target exposes the public include directory and
-requires C99. No separate installation step is needed.
-
-For a local checkout, use `SOURCE_DIR` instead of `GIT_REPOSITORY` and
-`GIT_TAG`:
-
-```cmake
-FetchContent_Declare(
-    color_log
-    SOURCE_DIR /path/to/color_log
-)
-FetchContent_MakeAvailable(color_log)
-```
-
 ## Use after installation
-
-If the library was installed outside a system prefix, point CMake at the
-installation prefix with `CMAKE_PREFIX_PATH`:
-
-```sh
-cmake -S . -B build \
-    -DCMAKE_PREFIX_PATH=/path/to/install
-```
-
-Then link the package target from the consuming project's `CMakeLists.txt`:
-
-```cmake
-find_package(color_log CONFIG REQUIRED)
-
-add_executable(my_app main.c)
-target_link_libraries(my_app PRIVATE color_log::color_log)
-```
-
-Include the public header from C code:
 
 ```c
 #include "color_log.h"
-
-fprint_col(stdout, NUMBER, "value: %d\n", 42);
+int main(){
+fprint_col(stdout, HEADER, "the %dth header limited to 20 chars", 1);
+fprint_col(stderr, STRING, "hi, this is my string.\n");
+fprint_col(stdout, SECTION, "section 1");
+fprint_col(stderr, LABEL, "value of my x variable: ");
+fprint_col(stderr, NUMBER, "%d", 42);
+fprint_col(stdout, TRAILER, "end. Limited to 20 chars");
+return 0;
+}
 ```
